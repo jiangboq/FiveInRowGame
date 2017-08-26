@@ -3,21 +3,21 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Board {
-	private List<Cell> candidateCells;
-	private List<Cell> rootValues;
-	private Player[][] board;
-	private static int BOARD_SIZE = 18;
+    private List<Cell> candidateCells;
+    private List<Cell> rootValues;
+    private Player[][] board;
+    private static int BOARD_SIZE = 18;
 	
-	public Board() {
-		this.candidateCells = new ArrayList<Cell>();
-		this.rootValues = new ArrayList<Cell>();
-		this.board = new Player[BOARD_SIZE][BOARD_SIZE];
-		this.initializeBoard();
-	}
+    public Board() {
+        this.candidateCells = new ArrayList<Cell>();
+        this.rootValues = new ArrayList<Cell>();
+        this.board = new Player[BOARD_SIZE][BOARD_SIZE];
+        this.initializeBoard();
+    }
 	
-	public List<Cell> getEmptyCells() {
+    public List<Cell> getEmptyCells() {
         
-    	List<Cell> emptyCells = new ArrayList<>();
+        List<Cell> emptyCells = new ArrayList<>();
         
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
@@ -29,83 +29,85 @@ public class Board {
         return emptyCells;
     }
 	
-	public void move(Cell point, Player player) {
-		board[point.getX()][point.getY()] = player;   
-	}
+    public void move(Cell point, Player player) {
+        board[point.getX()][point.getY()] = player;   
+    }
 	 
-	public List<Cell> getCandidateCells() {
-		List<Cell> candidateCells = new ArrayList<Cell>();
-		for(int i=0; i<BOARD_SIZE; i++) {
-			for(int j=0; j<BOARD_SIZE; j++) {
-				if(board[i][j] == Player.NONE) {
-					if(i+1 < BOARD_SIZE && board[i+1][j] != Player.NONE) {
-						candidateCells.add(new Cell(i, j));
-					}
-					else if(i-1 > 0 && board[i-1][j] != Player.NONE) {
-						candidateCells.add(new Cell(i, j));
-					}
-					else if(j-1 > 0 && board[i][j-1] != Player.NONE) {
-						candidateCells.add(new Cell(i, j));
-					}
-					else if(j+1 < BOARD_SIZE && board[i][j+1] != Player.NONE) {
-						candidateCells.add(new Cell(i, j));
-					}
-					else if(i+1 < BOARD_SIZE && j+1 < BOARD_SIZE && board[i+1][j+1] != Player.NONE) {
-						candidateCells.add(new Cell(i, j));
-					}		
-					else if(i-1 > 0 && j-1 > 0 && board[i-1][j-1] != Player.NONE) {
-						candidateCells.add(new Cell(i, j));
-					}
-				}
-			}
-		}
-		return candidateCells;
-	}
+    public List<Cell> getCandidateCells() {
+        List<Cell> candidateCells = new ArrayList<Cell>();
+		
+        for(int i=0; i<BOARD_SIZE; i++) {
+            for(int j=0; j<BOARD_SIZE; j++) {
+                if(board[i][j] == Player.NONE) {
+                    if(i+1 < BOARD_SIZE && board[i+1][j] != Player.NONE) {
+                        candidateCells.add(new Cell(i, j));
+                    }
+                    else if(i-1 > 0 && board[i-1][j] != Player.NONE) {
+                        candidateCells.add(new Cell(i, j));
+                    }
+                    else if(j-1 > 0 && board[i][j-1] != Player.NONE) {
+                        candidateCells.add(new Cell(i, j));
+                    }
+                    else if(j+1 < BOARD_SIZE && board[i][j+1] != Player.NONE) {
+                        candidateCells.add(new Cell(i, j));
+                    }
+                    else if(i+1 < BOARD_SIZE && j+1 < BOARD_SIZE && board[i+1][j+1] != Player.NONE) {
+                        candidateCells.add(new Cell(i, j));
+                    }		
+                    else if(i-1 > 0 && j-1 > 0 && board[i-1][j-1] != Player.NONE) {
+                        candidateCells.add(new Cell(i, j));
+                    }
+                }
+            }
+        }
+        
+        return candidateCells;
+    }
 
-	public boolean isWinning(Player player) {
-		for(int i=0; i<BOARD_SIZE; i++) {
-			for(int j=0; j<BOARD_SIZE; j++) {
-				if(board[i][j] == player) {
-					int k;
+    public boolean isWinning(Player player) {
+        for(int i=0; i<BOARD_SIZE; i++) {
+            for(int j=0; j<BOARD_SIZE; j++) {
+                if(board[i][j] == player) {
+                    int k;
 					
-					for(k=1; k<5 && j+k<BOARD_SIZE; k++) {
-						if(board[i][j+k] != player) {
-							break;
-						}
-					}
-					if(k == 5) {
-						return true;
-					}
+                    for(k=1; k<5 && j+k<BOARD_SIZE; k++) {
+                        if(board[i][j+k] != player) {
+                            break;
+                        }
+                    }
+                    if(k == 5) {
+                        return true;
+                    }
 					
-					for(k=1; k<5 && i+k<BOARD_SIZE; k++) {
-						if(board[i+k][j] != player) {
-							break;
-						}
-					}
-					if(k == 5) {
-						return true;
-					}
+                    for(k=1; k<5 && i+k<BOARD_SIZE; k++) {
+                        if(board[i+k][j] != player) {
+                            break;
+                        }
+                    }
+                    if(k == 5) {
+                        return true;
+                    }
 					
-					for(k=1; k<5 && j+k<BOARD_SIZE && i-k>=0; k++) {
-						if(board[i-k][j+k] != player) {
-							break;
-						}
-					}
-					if(k == 5) {
-						return true;
-					}
+                    for(k=1; k<5 && j+k<BOARD_SIZE && i-k>=0; k++) {
+                        if(board[i-k][j+k] != player) {
+                            break;
+                        }
+                    }
+                    if(k == 5) {
+                        return true;
+                    }
 					
-					for(k=1; k<5 && i+k<BOARD_SIZE && j+k<BOARD_SIZE; k++) {
-						if(board[i+k][j+k] != player) {
-							break;
-						}
-					}
-					if(k == 5) {
-						return true;
-					}
-				}
-			}
-		}
+                    for(k=1; k<5 && i+k<BOARD_SIZE && j+k<BOARD_SIZE; k++) {
+                        if(board[i+k][j+k] != player) {
+                            break;
+                        }
+                    }
+                    if(k == 5) {
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
 	
