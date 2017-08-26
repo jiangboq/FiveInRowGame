@@ -20,7 +20,7 @@ public class ChessFrame extends JFrame {
 
         @Override
         public void mouseClicked(MouseEvent e) {
-			// TODO Auto-generated method stub
+            // TODO Auto-generated method stub
             int cellX = transfer(e.getX(), e.getY())[0];
             int cellY = transfer(e.getX(), e.getY())[1];
 			
