@@ -168,10 +168,10 @@ public class Board {
     
     public void callMinimax(int depth, Player player){
         rootValues.clear();
-        minimax(depth, player);
+        minimax(depth, player, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
     
-    public int minimax(int depth, Player player) {
+    public int minimax(int depth, Player player, int alpha, int beta) {
         if(isWinning(Player.COMPUTER)) {
             return 10000;
         }
@@ -187,13 +187,20 @@ public class Board {
         }
 		
         List<Integer> scores = new ArrayList<Integer>(); 
+        
         for (int i = 0; i < candidateCells.size(); i++) {
+        	if(alpha > beta) {
+        		continue;
+        	}
+        	
             Cell point = candidateCells.get(i);  
             board[point.getX()][point.getY()] = player;
         	
             if (player == Player.COMPUTER) { 
-                int currentScore = minimax(depth + 1, Player.USER);
-                scores.add(currentScore);
+                int currentScore = minimax(depth + 1, Player.USER, alpha, beta);
+                
+               alpha = currentScore > alpha ? currentScore : alpha;
+               scores.add(currentScore);
 
                 if (depth == 0) {
                     point.setValue(currentScore);
@@ -201,7 +208,9 @@ public class Board {
                 }    	    
             } 
             else if (player == Player.USER) {
-                scores.add(minimax(depth + 1, Player.COMPUTER));
+            	int currentScore = minimax(depth + 1, Player.COMPUTER, alpha, beta);
+                scores.add(currentScore);
+                beta = currentScore < beta ? currentScore : beta;
             }
             
             board[point.getX()][point.getY()] = Player.NONE; //Reset this point
